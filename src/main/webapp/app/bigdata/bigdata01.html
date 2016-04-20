@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="altitude" content="41.55972671508789"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-15 11:58:59 +0000"/>
+    <meta name="latitude" content="40.1432533411071"/>
+    <meta name="longitude" content="116.2898578214421"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-16 17:48:20 +0000"/>
+    <title>大数据(与我距离有多远)－01</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head><body>
+<div>首先培养一个动手的好习惯，前面几章直接跟着做，不用深追原理，而且多为Linux的操作命令，原理性质涉及不多</div>
+<div>对于环境，笔者是在mac下，使用 VirtualBox+CentOS来搭建伪虚拟机集群，远程工具使用FileZilla传输文件</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1:CentOS镜像 下载和安装</span></b></div>
+<div><span style="color: rgb(4, 51, 255);">http://mirrors.163.com</span></div>
+<div><img src="app/bigdata/image01/B47D6F20-B126-4FE7-9D9A-E59DA6E06517.png"/></div>
+<div>镜像地址：</div>
+<div><span style="color: rgb(4, 51, 255);"><a href="http://mirrors.163.com/centos/7.2.1511/isos/x86_64/">http://mirrors.163.com/centos/7.2.1511/isos/x86_64/</a><a href="http://mirrors.163.com/centos/7.2.1511/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso"><span style="color: rgb(4, 51, 255);">CentOS-7-x86_64-Minimal-1511.iso</span></a></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><b><span style="font-size: 18px;">2:VirtualBox虚拟机 下载和安装</span></b></div>
+<div><a href="https://www.virtualbox.org/wiki/Downloads"><span style="color: rgb(4, 51, 255);">https://www.virtualbox.org/wiki/Downloads</span></a></div>
+<div><img src="app/bigdata/image01/F951CC3E-B001-4E5C-969F-910CF0FD7053.png"/></div>
+<div><a href="http://download.virtualbox.org/virtualbox/5.0.16/VirtualBox-5.0.16-105871-OSX.dmg"/><a href="http://download.virtualbox.org/virtualbox/5.0.16/VirtualBox-5.0.16-105871-OSX.dmg">http://download.virtualbox.org/virtualbox/5.0.16/VirtualBox-5.0.16-105871-OSX.dmg</a></div>
+<div><span style="color: rgb(4, 51, 255);"><a href="http://download.virtualbox.org/virtualbox/5.0.16/Oracle_VM_VirtualBox_Extension_Pack-5.0.16-105871.vbox-extpack">http://download.virtualbox.org/virtualbox/5.0.16/Oracle_VM_VirtualBox_Extension_Pack-5.0.16-105871.vbox-extpack</a></span></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3:安装VirtualBox</span></b>：</div>
+<div><img src="app/bigdata/image01/0421F444-BDF6-4115-8E0E-935C92EFF40C.png"/></div>
+<div><img src="app/bigdata/image01/7C2D2246-13A8-445D-9E12-29802DC4ED8D.png"/></div>
+<div><img src="app/bigdata/image01/F734DD20-3DD3-4BA3-AF2F-72979DC41FA6.png"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">4:安装CentOS</span></b></div>
+<div>新建虚拟机</div>
+<div><img src="app/bigdata/image01/90955137-575F-4B27-8760-046E6571A686.png"/></div>
+<div>继续</div>
+<div><img src="app/bigdata/image01/EAD4B3A4-DE7A-4317-9865-521B343732CE.png"/></div>
+<div>继续</div>
+<div><img src="app/bigdata/image01/4EC00844-7BEF-4B11-B258-9FFACA4D586E.png"/></div>
+<div>继续</div>
+<div><img src="app/bigdata/image01/E126EC56-000E-408E-8672-E741B3752222.png"/></div>
+<div>继续</div>
+<div><img src="app/bigdata/image01/3DE7B146-E492-4BA4-AEE9-F673AD01CE39.png"/></div>
+<div>继续</div>
+<div><img src="app/bigdata/image01/02402815-DCF5-475A-9580-AD1F7D171592.png"/></div>
+<div>机器配置</div>
+<div><img src="app/bigdata/image01/25972899-512F-4C33-B3A9-D8E6452420C7.png"/></div>
+<div><img src="app/bigdata/image01/3D258E81-2352-4D4D-A7CF-D2B93F75462B.png"/></div>
+<div><img src="app/bigdata/image01/4E3BBB02-73AC-4111-B2A4-E6430575DDB6.png"/></div>
+<div><img src="app/bigdata/image01/02C2AFB6-060E-4FD8-9110-FD13B0FC2031.png"/></div>
+<div><img src="app/bigdata/image01/F86B93A3-6968-420E-8247-5E428D8F51DC.png"/></div>
+<div><img src="app/bigdata/image01/F94CB0DF-177D-4BB9-9175-983A62E7D9FE.png"/></div>
+<div><img src="app/bigdata/image01/354F81C6-078B-4D90-B476-3C7137D96C8A.png"/></div>
+<div><img src="app/bigdata/image01/C6A902C0-7047-43A3-A4D3-B224F2CD4482.png"/></div>
+<div><img src="app/bigdata/image01/72398D72-88CF-4847-A6E6-004C3ABD223A.png"/></div>
+<div><img src="app/bigdata/image01/AF9DE972-CD1C-4093-A992-5E6FC6E7761F.png"/></div>
+<div><img src="app/bigdata/image01/867EF9F4-58FB-4F83-ADAB-FB97CA0F9510.png"/></div>
+<div><img src="app/bigdata/image01/F349E1B5-8DBD-4AF4-9EED-146AF13CCD77.png"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><img src="app/bigdata/image01/AAEA0ACA-2426-4CEE-B92B-897F67CC0A5B.png"/></div>
+<div><img src="app/bigdata/image01/34FD437B-E5B8-4015-AB25-7F81DDD693A9.png"/></div>
+<div><img src="app/bigdata/image01/C6E90C54-AE6A-4D1A-BBF8-A438F0FAE825.png"/></div>
+<div><img src="app/bigdata/image01/33BAE24E-5C1E-4770-9323-4EC6A8438F4D.png"/></div>
+<div><img src="app/bigdata/image01/B9417C7C-62DE-4846-B439-8AAF406B6CC8.png"/></div>
+<div><img src="app/bigdata/image01/7FC6BB58-0BAD-4C21-99CA-0195A673ACF1.png"/></div>
+<div><img src="app/bigdata/image01/97CB9F0A-264A-45CA-BD49-E2A5F7DB35F6.png"/>
+    <img src="app/bigdata/image01/9D19D1CA-6A26-4DB2-A20E-2F4FB376F0A6.png"/></div>
+<div><img src="app/bigdata/image01/D152928A-BC3A-4F5C-A3A0-895E20A64BE9.png"/>
+    <img src="app/bigdata/image01/9FCBE876-6A91-430A-B170-EB4A4FBE921D.png"/></div>
+<div><img src="app/bigdata/image01/11BAA280-03B4-4BC6-B872-A72454981D10.png"/></div>
+<div>到这里我们的虚拟机就已经安装完成了</div>
+<div>在下一节，当拷贝或配置完成一台设备后，可通过复制操作复制创建多台设备</div>
+<div><img src="app/bigdata/image01/83CCE83A-F4A7-49CF-8F92-3BAC7FC9DECA.png"/></div>
+<div><img src="app/bigdata/image01/4FA54D98-E5C5-4B3D-89A2-3D09745AD90D.png"/></div>
+<div>这样会节省很多时间</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">5:FileZilla 下载和安装</span></b></div>
+<div><a href="https://filezilla-project.org/download.php?type=client"/><a href="https://filezilla-project.org/download.php?type=client"/><a href="https://filezilla-project.org/download.php?type=client">https://filezilla-project.org/download.php?type=client</a></div>
+<div><img src="app/bigdata/image01/8CBB303B-73DA-44D2-B83F-8C2FE63C7BDC.png"/></div>
+<div><a href="https://download.filezilla-project.org/client/FileZilla_3.16.1_macosx-x86_setup_bundled.zip">https://download.filezilla-project.org/client/FileZilla_3.16.1_macosx-x86_setup_bundled.zip</a></div>
+<div>下载解压后得到应用程序，如果已安装低版本FileZilla，通过更新可获得</div>
+<div>FileZilla_3.16.1_macosx-x86.app.tar.bz2</div>
+<div>解压后同样获得应用程序，直接copy到Application中</div>
+<div><img src="app/bigdata/image01/7B865071-D559-415C-80C6-71BA053720EB.png"/></div>
+<div><img src="app/bigdata/image01/790B4392-0692-4812-940F-BBC7109D85F9.png"/></div>
+<div>可通过设置主机名、用户名、密码、端口22与虚拟机建立ssh链接</div>
+<div><img src="app/bigdata/image01/7FE8CF8F-A42F-441C-86CC-49014158DBC1.png"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+<div><span style="color: rgb(4, 51, 255);"><br/></span></div>
+</body></html>

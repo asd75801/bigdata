@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="altitude" content="40.61983489990234"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-16 15:54:00 +0000"/>
+    <meta name="latitude" content="40.1432562816815"/>
+    <meta name="longitude" content="116.2897507882413"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-16 21:20:49 +0000"/>
+    <title>大数据(与我距离有多远)－03</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head><body>
+<div><b><span style="font-size: 18px;">1:host、hostname等配置</span></b></div>
+<div>三台机器的IP分别为</div>
+<div>CentOS01  192.168.1.104</div>
+<div>CentOS02  192.168.1.105</div>
+<div>CentOS03  192.168.1.106</div>
+<div>机器有上一章介绍的复制虚拟机产生的</div>
+<div><br/></div>
+<div>将 /etc/hosts 和 /etc/hostname 分别进行配置</div>
+<div>hostname这里命名为centos01,centos02,centos03</div>
+<div><br/></div>
+<div>以CentOS01为例</div>
+<div><br/></div>
+<div># vi /etc/hostname</div>
+<div><br/></div>
+<div>i进入insert</div>
+<div>修改为centos01</div>
+<div>ESC退出insert模式</div>
+<div>:wq保存并退出</div>
+<div><br/></div>
+<div>对于hosts，建议通过filezilla把hosts文件从一台机器传出到本地，然后本地编写后传回到服务器</div>
+<div>其他机器也可通过本地修改后的hosts直接覆盖到服务器的/etc/hosts，保证集群的所有机器的hosts一致</div>
+<div>或者修改一台机器后，通过</div>
+<div><br/></div>
+<div>#scp /etc/hosts 192.168.1.104:/etc/</div>
+<div><br/></div>
+<div>复制到下一台机器</div>
+<div>这样ping 机器名可以直接转义成IP</div>
+<div><br/></div>
+<div>最后将每台机器都关闭防火墙（实际生产环境需要单独配置防火墙，只打开部分端口，这里为了方便就直接全部关闭了）</div>
+<div><br/></div>
+<div># iptables -F</div>
+<div>保证集群的机器相互间 ping 主机名或IP都可以联通，telnet一些测试端口可联通</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2:集群ssh无密码互联</span></b></div>
+<div>例如：当前IP 192.168.1.104，想让192.168.1.105和192.168.1.106无密码登录当前机器</div>
+<div>
+<div>将本机的公钥发送到其他两台机器上</div>
+<div>#ssh-keygen</div>
+<div>一直回车即可</div>
+</div>
+<div>#scp id_rsa.pub 192.168.1.105:/root</div>
+<div>
+<div><br/></div>
+</div>
+<div>切换到另外的服务器</div>
+<div>在192.168.1.105机器上</div>
+<div>
+<div>#cd /root/.ssh</div>
+<div>#touch authorized_keys</div>
+<div>#cat ../id_rsa.pub&gt;&gt;authorized_keys</div>
+</div>
+<div>
+<div><br/></div>
+<div>其他机器需要权限</div>
+<div>#chmod 600 authorized_keys</div>
+<div><br/></div>
+</div>
+<div>这样，在105机器上就可以无密码登录192.168.1.104了</div>
+<div>#ssh 192.168.1.104</div>
+<div><br/></div>
+<div>同理，106也如此做。</div>
+<div>对于简便方法，可以把所有机器公钥放到同一authorized_keys里边，然后再把含有所有机器的authorized_keys分别覆盖每台机器的authorized_keys，没有则复制即可。这样就可以让所有机器ssh无密码互联</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3:zookeeper配置</span></b></div>
+<div>将/root/zookeeper/zookeeper-3.5.1-alpha/conf/zoo_sample.cfg复制到本地</div>
+<div>重命名为zoo.cfg编辑</div>
+<div><img src="app/bigdata/image03/1678E934-AFCC-4C11-8EC7-7831A916D0D8.png"/></div>
+<div>将文件分别放入集群每台机器的zookeeper路径的conf下(/root/zookeeper/zookeeper-3.5.1-alpha)</div>
+<div><br/></div>
+<div>如果嫌麻烦也可直接在其中一台机器上处理，然后scp复制到多台机器上</div>
+<div>
+<div>#cd /**/zookeeper-3.5.0-alpha/conf</div>
+<div>拷贝配置文件</div>
+</div>
+<div># cp zoo_sample.cfg zoo.cfg</div>
+<div>编辑配置文件（这里将zookeeper数据和日志放到其他位置）</div>
+<div>
+<div># vi zoo.cfg</div>
+<div><br/></div>
+<div>    dataDir=/usr/local/data/zk/data</div>
+</div>
+<div>    dataLogDir=/usr/local/log/zk/logs</div>
+<div>    #每个节点配置所有机器的server列表</div>
+<div>    server.0=192.168.1.104:2888:3888</div>
+<div>    #其他节点</div>
+<div>    #server.1=192.168.1.105:2888:3888</div>
+<div>    #server.2=192.168.1.106:2888:3888</div>
+<div><br/></div>
+<div>保存并退出</div>
+<div># cd /usr/local/data/zk/</div>
+<div># mkdir data</div>
+<div># mkdir logs</div>
+<div><br/></div>
+<div>每个节点配置一个数字</div>
+<div>
+<div># vi /usr/local/data/zk/data/myid</div>
+<div><br/></div>
+<div>    0</div>
+<div>    #其他节点</div>
+<div>    #1</div>
+</div>
+<div>    #2</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>ssh到每台服务器上，通过</div>
+<div><br/></div>
+<div>＃zkServer.sh start</div>
+<div><br/></div>
+<div>启动zookeeper</div>
+<div><img src="app/bigdata/image03/72737DA7-9832-4ABA-BB23-17B582B73C61.png"/></div>
+<div>全部启动后，可以通过</div>
+<div><br/></div>
+<div>#zkServer.sh status</div>
+<div><br/></div>
+<div>查看zookeeper状态</div>
+<div><img src="app/bigdata/image03/45BEFB3D-14D0-4084-8C06-BA2BA0CEF882.png"/></div>
+<div>或者</div>
+<div>#jps</div>
+<div>查看zookeeper进程</div>
+<div><img src="app/bigdata/image03/5350D087-7910-4F18-9C45-9E6505C9406E.png"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">4:storm配置</span></b></div>
+<div>首先与zookeeper类似，配置文件拷贝到本地</div>
+<div><img src="app/bigdata/image03/0B8D6F24-AE5E-40FD-8928-989C22CFB2E0.png"/></div>
+<div>对于需要配置的东西如下</div>
+<div><img src="app/bigdata/image03/E5C6F307-7391-41CE-AE48-79D78930E6DD.png"/></div>
+<div><br/></div>
+<div>storm配置实际上非常多，网上查了一下，具体配置项说明放到了本章结尾</div>
+<div>同样的，也可以直接在集群上配置，然后通过scp或其他方式复制到每台节点（网上查了下，Linux下相互传输文件方式挺多的，由于这里没有涉及到大文件传输，scp就够用了）</div>
+<div><br/></div>
+<div>
+<div>#cd /**/storm-0.9.5/conf</div>
+<div>#vi storm.yaml</div>
+<div><br/></div>
+<div>    #zookeeper的服务集群列表</div>
+<div>    storm.zookeeper.servers:</div>
+</div>
+<div>        - "192.168.0.104"</div>
+<div>        - "192.168.0.105"</div>
+<div>        - "192.168.0.106"</div>
+<div>    #zookeeper的端口，不配置也可，默认2181</div>
+<div>
+<div>    storm.zookeeper.ports: 2181</div>
+</div>
+<div><br/></div>
+<div>    #storm的工作空间，不配置也可，但是重启可能会丢数据:(</div>
+<div>
+<div>    storm.local.dir: "/usr/local/data/storm/workdir"</div>
+<div><br/></div>
+<div>    #storm ui的端口号</div>
+<div>    ui.port: 18080</div>
+</div>
+<div><br/></div>
+<div>    #nimbus主机配置</div>
+<div>    nimbus.host: "192.168.1.104"</div>
+<div><br/></div>
+<div>
+<div>ssh到每台服务器上，通过</div>
+</div>
+<div><br/></div>
+<div>启动storm的nimbus主机(一般每个集群启动一个主机)</div>
+<div> # storm nimbus &amp;</div>
+<div>主机启动后启动supervisor(每台机器都需要启动)</div>
+<div>＃storm supervisor &amp;</div>
+<div>根据实际需要，启动某台或某几台storm机器的ui(按需启动)</div>
+<div>＃storm ui &amp;</div>
+<div><br/></div>
+<div>如图，storm的104的nimbus,supervisor,ui启动；其他机器只启动supervisors</div>
+<div><img src="app/bigdata/image03/C798706C-6865-420C-A3E6-BE398481C3EE.png"/></div>
+<div><br/></div>
+<div>打来浏览器，进入启动storm的ui的界面,supervisor中可以看到三台机器，说明三台机器的storm都已经跑起来了</div>
+<div><img src="app/bigdata/image03/A7B74A02-1E18-46FC-A17D-7AC5123243EB.png"/></div>
+<div><br/></div>
+<div>界面下边还有对整个集群的详细参数说明，配置项列出了好多页:)，UI够详细的！</div>
+<div><img src="app/bigdata/image03/D0358D63-3774-444E-8E81-AC96144B0B2B.png"/></div>
+<div>最后查看jps,确认一遍</div>
+<div><br/></div>
+<div><img src="app/bigdata/image03/91C92194-7D87-409F-A250-EA200DC96F04.png"/></div>
+<div><br/></div>
+<div>这样，一个空转的storm集群就已经搭建好了</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">5:storm.yaml配置项&amp;配置说明</span></b></div>
+<div>
+<div>storm.zookeeper.servers</div>
+<div>                              ZooKeeper服务器列表</div>
+<div><br/></div>
+<div>storm.zookeeper.port</div>
+<div>                              ZooKeeper连接端口</div>
+<div><br/></div>
+<div>storm.local.dir</div>
+<div>                              storm使用的本地文件系统目录(必须存在并且storm进程可读写)</div>
+<div><br/></div>
+<div>storm.cluster.mode</div>
+<div>                              Storm集群运行模式([distributed|local])</div>
+<div><br/></div>
+<div>storm.local.mode.zmq</div>
+<div>                              Local模式下是否使用ZeroMQ作消息系统，如果设置为false则使用 java消息系统。默认为false</div>
+<div><br/></div>
+<div>storm.zookeeper.root</div>
+<div>                              ZooKeeper中Storm的根目录位置</div>
+<div><br/></div>
+<div>storm.zookeeper.session.timeout</div>
+<div>                              客户端连接ZooKeeper超时时间</div>
+<div><br/></div>
+<div>storm.id</div>
+<div>                              运行中拓扑的id,由storm name和一个唯一随机数组成。</div>
+<div><br/></div>
+<div>nimbus.host nimbus</div>
+<div>                              服务器地址</div>
+<div><br/></div>
+<div>nimbus.thrift.port</div>
+<div>                              nimbus的thrift监听端口</div>
+<div><br/></div>
+<div>nimbus.childopts</div>
+<div>                              通过storm-deploy项目部署时指定给nimbus进程的jvm选项</div>
+<div><br/></div>
+<div>nimbus.task.timeout.secs</div>
+<div>                              心跳超时时间，超时后nimbus会认为task死掉并重分配给另一个地址。</div>
+<div><br/></div>
+<div>nimbus.monitor.freq.secs</div>
+<div>                              nimbus检查心跳和重分配任务的时间间隔.注意如果是机器宕掉 nimbus会立即接管并处理。</div>
+<div><br/></div>
+<div>nimbus.supervisor.timeout.secs</div>
+<div>                              supervisor的心跳超时时间,一旦超过nimbus会认为该supervisor已 死并停止为它分发新任务.</div>
+<div><br/></div>
+<div>nimbus.task.launch.secs</div>
+<div>                              task启动时的一个特殊超时设置.在启动后第一次心跳前会使用该 值来临时替代nimbus.task.timeout.secs. nimbus.reassign 当发现task失败时nimbus是否重新分配执行。默认为真，不建议修改。</div>
+<div><br/></div>
+<div>nimbus.file.copy.expiration.secs</div>
+<div>                              nimbus判断上传/下载链接的超时时间，当空闲时间超过该设定时 nimbus会认为链接死掉并主动断开</div>
+<div><br/></div>
+<div>ui.port</div>
+<div>                              Storm UI的服务端口</div>
+<div><br/></div>
+<div>drpc.servers</div>
+<div>                              DRPC服务器列表，以便DRPCSpout知道和谁通讯</div>
+<div><br/></div>
+<div>drpc.port</div>
+<div>                              Storm DRPC的服务端口</div>
+<div><br/></div>
+<div>supervisor.slots.ports</div>
+<div>                              supervisor上能够运行workers的端口列表.每个worker占用一个端 口,且每个端口只运行一个worker.通过这项配置可以调整每台机器 上运行的worker数.(调整slot数/每机)</div>
+<div><br/></div>
+<div>supervisor.childopts</div>
+<div>                              在storm-deploy项目中使用,用来配置supervisor守护进程的jvm选项</div>
+<div><br/></div>
+<div>supervisor.worker.timeout.secs</div>
+<div>                              supervisor中的worker心跳超时时间,一旦超时supervisor会尝试重启 worker进程.</div>
+<div><br/></div>
+<div>supervisor.worker.start.timeout.secs</div>
+<div>                              supervisor初始启动时，worker的心跳超时时间，当超过该时间 supervisor会尝试重启worker。因为JVM初始启动和配置会带来的 额外消耗，从而使得第一次心跳会超过supervisor.worker.timeout.secs的设定</div>
+<div><br/></div>
+<div>supervisor.enable</div>
+<div>                              supervisor是否应当运行分配给他的workers.默认为true,该选项用 来进行Storm的单元测试,一般不应修改.</div>
+<div><br/></div>
+<div>supervisor.heartbeat.frequency.secs</div>
+<div>                              supervisor心跳发送频率(多久发送一次)</div>
+<div><br/></div>
+<div>supervisor.monitor.frequency.secs</div>
+<div>                              supervisor检查worker心跳的频率</div>
+<div><br/></div>
+<div>worker.childopts</div>
+<div>                              supervisor启动worker时使用的jvm选项.所有的”%ID%”字串会被替换为对应worker的标识符</div>
+<div><br/></div>
+<div>worker.heartbeat.frequency.secs</div>
+<div>                              worker的心跳发送时间间隔</div>
+<div><br/></div>
+<div>task.heartbeat.frequency.secs</div>
+<div>                              task汇报状态心跳时间间隔</div>
+<div><br/></div>
+<div>task.refresh.poll.secs</div>
+<div>                              task与其他tasks之间链接同步的频率.(如果task被重分配,其他 tasks向它发送消息需要刷新连接).一般来讲，重分配发生时其他 tasks会理解得到通知。该配置仅仅为了防止未通知的情况。</div>
+<div><br/></div>
+<div>topology.debug</div>
+<div>                              如果设置成true，Storm将记录发射的每条信息。</div>
+<div><br/></div>
+<div>topology.optimize</div>
+<div>                              master是否在合适时机通过在单个线程内运行多个task以达到优化 topologies的目的.</div>
+<div><br/></div>
+<div>topology.workers</div>
+<div>                              执行该topology集群中应当启动的进程数量.每个进程内部将以线程方式执行一定数目的tasks.topology的组件结合该参数和并行度提 示来优化性能</div>
+<div><br/></div>
+<div>topology.ackers</div>
+<div>                              topology中启动的acker任务数.Acker保存由spout发送的tuples的记录，并探测tuple何时被完全处理.当Acker探测到tuple被处理完毕时会向spout发送确认信息.通常应当根据topology的吞吐量来确 定acker的数目，但一般不需要太多.当设置为0时,相当于禁用了消 息可靠性,storm会在spout发送tuples后立即进行确认.</div>
+<div><br/></div>
+<div>topology.message.timeout.secs</div>
+<div>                              topology中spout发送消息的最大处理超时时间.如果一条消息在该 时间窗口内未被成功ack,Storm会告知spout这条消息失败。而部分 spout实现了失败消息重播功能。</div>
+<div><br/></div>
+<div>topology.kryo.register</div>
+<div>                              注册到Kryo(Storm底层的序列化框架)的序列化方案列表.序列化方 案可以是一个类名,或者是com.esotericsoftware.kryo.Serializer的实现.</div>
+<div><br/></div>
+<div>topology.skip.missing.kryo.registrations</div>
+<div>                              Storm是否应该跳过它不能识别的kryo序列化方案.如果设置为否 task可能会装载失败或者在运行时抛出错误.</div>
+<div><br/></div>
+<div>topology.max.task.parallelism</div>
+<div>                              在一个topology中能够允许的最大组件并行度.该项配置主要用在本地模式中测试线程数限制.</div>
+<div><br/></div>
+<div>topology.max.spout.pending</div>
+<div>                              一个spout task中处于pending状态的最大的tuples数量.该配置应用 于单个task,而不是整个spouts或topology.</div>
+<div><br/></div>
+<div>topology.state.synchronization.timeout.secs</div>
+<div>                              组件同步状态源的最大超时时间(保留选项,暂未使用)</div>
+<div><br/></div>
+<div>topology.stats.sample.rate</div>
+<div>                              用来产生task统计信息的tuples抽样百分比</div>
+<div><br/></div>
+<div>topology.fall.back.on.java.serialization</div>
+<div>                              topology中是否使用java的序列化方案 zmq.threads 每个worker进程内zeromq通讯用到的线程数</div>
+<div><br/></div>
+<div>zmq.linger.millis</div>
+<div>                              当连接关闭时,链接尝试重新发送消息到目标主机的持续时长.这是一个不常用的高级选项,基本上可以忽略.</div>
+<div><br/></div>
+<div>java.library.path</div>
+</div>
+<div>                              JVM启动(如Nimbus,Supervisor和workers)时的java.library.path设 置.该选项告诉JVM在哪些路径下定位本地库.</div>
+<div><br/></div>
+</body></html>

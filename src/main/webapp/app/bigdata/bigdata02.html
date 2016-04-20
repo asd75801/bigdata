@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="altitude" content="42.86201858520508"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-16 13:59:57 +0000"/>
+    <meta name="latitude" content="40.14323636386159"/>
+    <meta name="longitude" content="116.2897740255539"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-16 21:14:50 +0000"/>
+    <title>大数据(与我距离有多远)－02</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head><body>
+<div>配置zookeeper+storm开发环境</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1:zookeeper</span></b></div>
+<div><a href="https://zookeeper.apache.org"/><a href="https://zookeeper.apache.org"/><a href="https://zookeeper.apache.org">https://zookeeper.apache.org</a></div>
+<div><img src="app/bigdata/image02/B39291B2-1C3A-4938-9495-C746F2559770.png"/></div>
+<div><br/></div>
+<div>国内下载地址一般都是大型教育机构（大学）或者少量开源机构速度较快</div>
+<div>mirrors.hust.edu.cn/apache可以下载大量最新的apache开源项目软件</div>
+<div><a href="http://mirrors.hust.edu.cn/apache/zookeeper/"/><a href="http://mirrors.hust.edu.cn/apache/zookeeper/"/><a href="http://mirrors.hust.edu.cn/apache/zookeeper/"/><a href="http://mirrors.hust.edu.cn/apache/">http://mirrors.hust.edu.cn/apache/</a></div>
+<div>zookeeper下载地址</div>
+<div><a href="http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.5.1-alpha/zookeeper-3.5.1-alpha.tar.gz"/><a href="http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.5.1-alpha/zookeeper-3.5.1-alpha.tar.gz">http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.5.1-alpha/zookeeper-3.5.1-alpha.tar.gz</a></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2:storm</span></b></div>
+<div><a href="http://storm.apache.org"/><a href="http://storm.apache.org">http://storm.apache.org</a></div>
+<div><img src="app/bigdata/image02/8770DE12-6A97-4207-A8A1-AD1CAD6FE83D.png"/></div>
+<div>同样的，storm可通过mirrors.hust.edu.cn/apache/storm下载</div>
+<div>storm下载地址</div>
+<div><a href="http://mirrors.hust.edu.cn/apache/storm/apache-storm-0.10.0/apache-storm-0.10.0.tar.gz"/><a href="http://mirrors.hust.edu.cn/apache/storm/apache-storm-0.10.0/apache-storm-0.10.0.tar.gz">http://mirrors.hust.edu.cn/apache/storm/apache-storm-0.10.0/apache-storm-0.10.0.tar.gz</a></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3:java</span></b></div>
+<div><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></div>
+<div><img src="app/bigdata/image02/20759B35-D0A1-40BE-BE03-C653AD0BA4EA.png"/></div>
+<div>官网已经更新到8u77版本了，笔者之前已经下载过8u74，这里就不再下载一遍了；以8u74做笔记</div>
+<div><img src="app/bigdata/image02/22A66855-61F8-4562-96E1-E67199B36664.png"/></div>
+<div><img src="app/bigdata/image02/679745BE-77F2-48F6-A437-F9AC77F27543.png"/></div>
+<div>接受licence，分别下载Mac版和linux64位版</div>
+<div><a href="http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-macosx-x64.dmg">http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-macosx-x64.dmg</a></div>
+<div><a href="http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-linux-x64.tar.gz">http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-linux-x64.tar.gz</a></div>
+<div><br/></div>
+<div>其中，dmg用于在OS X系统下开发java程序；tar.gz用于linux集群运行zookeeper+storm</div>
+<div><img src="app/bigdata/image02/E7AF0AF8-840E-4A6E-92E6-C8B9B043252E.png"/></div>
+<div>通过fileZilla上传到CentOS</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">4:解压并整理软件</span></b></div>
+<div>回到虚拟机中来，可通过ls命令查看上传过来的文件</div>
+<div><img src="app/bigdata/image02/FA01A4B2-C47E-44B1-BDEA-A303355F5D63.png"/></div>
+<div><br/></div>
+<div>linux软件不需要像windows那样点击exe配置和安装，Linux多数软件只需要解压即可使用（tar tar.gz tar.bz等类型）</div>
+<div><br/></div>
+<div>对java、storm、zookeeper解压操作；将安装包存放到/root/soft目录下,便于以后寻找或再次安装</div>
+<div>解压后分别放置到：</div>
+<div>java —— /root/java</div>
+<div>zookeeper —— /root/zookeeper</div>
+<div>storm —— /root/storm</div>
+<div><br/></div>
+<div>具体命令如下：</div>
+<div><br/></div>
+<div>对于解压命令不熟的童鞋可以，通过＃ man tar  命令来查看 tar的用法</div>
+<div> # cd ~</div>
+<div>＃tar -zxvf jdk8u74-linux-x64.tar.gz</div>
+<div>＃tar -xvf apache-storm-0.10.0.tar</div>
+<div>＃tar -zxvf zookeeper-3.5.1-alpha.tar.gz</div>
+<div><img src="app/bigdata/image02/68EFBCCF-C365-432F-8B3B-0A97C83AF52E.png"/></div>
+<div>创建文件夹</div>
+<div>对于mkdir命令不熟的童鞋可以，通过＃ man mkdir 命令来查看 mkdir的用法</div>
+<div> # mkdir soft</div>
+<div> # mkdir java</div>
+<div> # mkdir zookeeper</div>
+<div> # mkdir storm</div>
+<div><br/></div>
+<div>移动文件重命名</div>
+<div>对于mv命令不熟的童鞋可以，通过＃ man mv 命令来查看 mv的用法</div>
+<div> # mv jdk8u74-linux-x64.tar.gz soft/</div>
+<div> # mv apache-storm-0.10.0.tar soft/</div>
+<div> # mv zookeeper-3.5.1-alpha.tar.gz soft/</div>
+<div> # mv jdk1.8.0_74/ java/</div>
+<div># mv apache-storm-0.10.0/ storm/</div>
+<div># mv zookeeper-3.5.1-alpha/ zookeeper/</div>
+<div>
+<div> </div>
+</div>
+<div><img src="app/bigdata/image02/B46D8082-F55D-41FB-98C4-96E0332E6895.png"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">5:配置java环境变量，配置zookeeper和storm的环境变量</span></b></div>
+<div># vi /etc/profile</div>
+<div>按键盘 i 键进入insert模式</div>
+<div>在文件末尾追加 如下信息</div>
+<div><br/></div>
+<div>Linux 下环境变量通常都是</div>
+<div>定义环境变量</div>
+<div>key=value</div>
+<div>声明环境变量</div>
+<div>export key</div>
+<div><br/></div>
+<div>也可同时定义并声明</div>
+<div>export key=value</div>
+<div><br/></div>
+<div>相互引用使用$key(windows使用%key%)</div>
+<div>变量间隔使用:(windows使用;)</div>
+<div><br/></div>
+<div><img src="app/bigdata/image02/2AF056D6-4508-422E-A4B9-466AC646EF1D.png"/></div>
+<div>推出insert模式</div>
+<div>ESC</div>
+<div>保存并退出</div>
+<div>:wq</div>
+<div><br/></div>
+<div>使配置的环境变量生效</div>
+<div># source /etc/profile</div>
+<div>查看java版本信息，测试java是否好用</div>
+<div># java -version</div>
+<div><img src="app/bigdata/image02/E15C13ED-F25C-47E0-8239-503783BB343F.png"/></div>
+<div><br/></div>
+<div>理论上不用配置storm和zookeeper环境变量也可</div>
+<div>对于zookeeper和storm的进一步配置，见下一章</div>
+<div>在配置zookeeper和storm之前，建议通过上一章中的复制虚拟机建立多台机器，这样可以省去很多时间</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>
