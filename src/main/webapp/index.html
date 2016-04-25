@@ -11,28 +11,66 @@
     <link type="text/css" rel="stylesheet" href="/bootstrap/bootstrap.min.css"/>
 
     <script type="text/javascript" src="angularjs/angular.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="app/js/app.js"></script>
-    <script type="text/javascript" language="JavaScript" src="app/js/indexCtrl.js"></script>
+    <script type="text/javascript" language="JavaScript" src="app/js/app/indexApp.js"></script>
+    <script type="text/javascript" language="JavaScript" src="app/js/controller/indexCtrl.js"></script>
 
 </head>
 <body ng-controller="indexCtrl">
-    <h1>大数据(与我距离有多远)</h1>
-    <hr/>
-    <br><br>
-    <p><h2>第1章</h2></p>
+<div>
+    <nav class="navbar bg-faded">
+        <ul class="nav navbar-nav">
+            <li class="nav-item active" ng-click="navChange('1')">
+                <a href="#" class="nav-link">Chapter 1
+                    <span class="sr-only"></span>
+                </a>
+            </li>
+            <li class="nav-item" ng-click="navChange('2')">
+                <a href="#" class="nav-link">Chapter 2</a>
+            </li>
+            <li class="nav-item" ng-click="navChange('3')">
+                <a href="#" class="nav-link">Chapter 3</a>
+            </li>
+            <li class="nav-item" ng-click="navChange('4')">
+                <a href="#" class="nav-link">Chapter 4</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<hr/>
+<br><br>
+
+<div class="chapter chapter1">
+    <p>
+    <h2>第1章</h2></p>
     <div class="container-fluid" ng-include="'app/bigdata/bigdata01.html'">
     </div>
-    <br><br>
-    <p><h2>第2章</h2></p>
+</div>
+
+<div class="chapter chapter2">
+    <p>
+    <h2>第2章</h2></p>
     <div class="container-fluid" ng-include="'app/bigdata/bigdata02.html'">
     </div>
     <br><br>
-    <p><h2>第3章</h2></p>
+</div>
+
+<div class="chapter chapter3">
+    <p>
+    <h2>第3章</h2></p>
     <div class="container-fluid" ng-include="'app/bigdata/bigdata03.html'">
     </div>
     <br><br>
-    <p><h2>第4章</h2></p>
+</div>
+
+<div class="chapter chapter4">
+    <p>
+    <h2>第4章</h2></p>
     <div class="container-fluid" ng-include="'app/bigdata/bigdata04.html'">
     </div>
+    <br><br>
+</div>
+
+
+
 </body>
 </html>
