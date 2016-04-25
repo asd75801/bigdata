@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="altitude" content="70.44418334960938"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-25 07:05:27 +0000"/>
+    <meta name="latitude" content="39.92244211263591"/>
+    <meta name="longitude" content="116.3361378823916"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-25 07:28:20 +0000"/>
+    <title>大数据（与我距离有多远）－P02 Storm Nimbus 挂掉 org.apache.storm.utils.NimbusLeaderNotFoundException java.lang.RuntimeException: org.apache.storm.thrift.transport.TTransportException: java.net.ConnectException: Connection refused</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head><body>
+<div>
+<div style="box-sizing: border-box; overflow: auto; padding: 9.5px; border: 1px solid rgb(204, 204, 204); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(245, 245, 245);">
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo;">storm UI：</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);">org.apache.storm.utils.NimbusLeaderNotFoundException java.lang.RuntimeException:</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo;">storm的supervisor节点的supervisor.log</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);">org.apache.storm.thrift.transport.TTransportException: java.net.ConnectException: Connection refused</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo;">storm UI 显示如下错误：</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">org.apache.storm.utils.NimbusLeaderNotFoundException: Could not find leader nimbus from seed hosts ["localhost"]. Did you specify a valid list of nimbus hosts for config nimbus.seeds?</span></span></span></div>
+<span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;">        at org.apache.storm.utils.NimbusClient.getConfiguredClientAs(NimbusClient.java:90)<br/>
+        at org.apache.storm.ui.core$cluster_summary.invoke(core.clj:356)<br/>
+        at org.apache.storm.ui.core$fn__12108.invoke(core.clj:936)<br/>
+        at org.apache.storm.shade.compojure.core$make_route$fn__2467.invoke(core.clj:93)<br/>
+        at org.apache.storm.shade.compojure.core$if_route$fn__2455.invoke(core.clj:39)<br/>
+        at org.apache.storm.shade.compojure.core$if_method$fn__2448.invoke(core.clj:24)<br/>
+        at org.apache.storm.shade.compojure.core$routing$fn__2473.invoke(core.clj:106)<br/>
+        at clojure.core$some.invoke(core.clj:2570)<br/>
+        at org.apache.storm.shade.compojure.core$routing.doInvoke(core.clj:106)<br/>
+        at clojure.lang.RestFn.applyTo(RestFn.java:139)<br/>
+        at clojure.core$apply.invoke(core.clj:632)<br/>
+        at org.apache.storm.shade.compojure.core$routes$fn__2477.invoke(core.clj:111)<br/>
+        at org.apache.storm.shade.ring.middleware.json$wrap_json_params$fn__11576.invoke(json.clj:56)<br/>
+        at org.apache.storm.shade.ring.middleware.multipart_params$wrap_multipart_params$fn__3543.invoke(multipart_params.clj:103)<br/>
+        at org.apache.storm.shade.ring.middleware.reload$wrap_reload$fn__4286.invoke(reload.clj:22)<br/>
+        at org.apache.storm.ui.helpers$requests_middleware$fn__3770.invoke(helpers.clj:46)<br/>
+        at org.apache.storm.ui.core$catch_errors$fn__12301.invoke(core.clj:1230)<br/>
+        at org.apache.storm.shade.ring.middleware.keyword_params$wrap_keyword_params$fn__3474.invoke(keyword_params.clj:27)<br/>
+        at org.apache.storm.shade.ring.middleware.nested_params$wrap_nested_params$fn__3514.invoke(nested_params.clj:65)<br/>
+        at org.apache.storm.shade.ring.middleware.params$wrap_params$fn__3445.invoke(params.clj:55)<br/>
+        at org.apache.storm.shade.ring.middleware.multipart_params$wrap_multipart_params$fn__3543.invoke(multipart_params.clj:103)<br/>
+        at org.apache.storm.shade.ring.middleware.flash$wrap_flash$fn__3729.invoke(flash.clj:14)<br/>
+        at org.apache.storm.shade.ring.middleware.session$wrap_session$fn__3717.invoke(session.clj:43)<br/>
+        at org.apache.storm.shade.ring.middleware.cookies$wrap_cookies$fn__3645.invoke(cookies.clj:160)<br/>
+        at org.apache.storm.shade.ring.util.servlet$make_service_method$fn__3351.invoke(servlet.clj:127)<br/>
+        at org.apache.storm.shade.ring.util.servlet$servlet$fn__3355.invoke(servlet.clj:136)<br/>
+        at org.apache.storm.shade.ring.util.servlet.proxy$javax.servlet.http.HttpServlet$ff19274a.service(Unknown Source)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:654)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1320)<br/>
+        at org.apache.storm.logging.filters.AccessLoggingFilter.handle(AccessLoggingFilter.java:47)<br/>
+        at org.apache.storm.logging.filters.AccessLoggingFilter.doFilter(AccessLoggingFilter.java:39)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1291)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlets.CrossOriginFilter.handle(CrossOriginFilter.java:247)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlets.CrossOriginFilter.doFilter(CrossOriginFilter.java:210)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1291)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:443)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1044)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:372)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:978)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:135)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:116)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.Server.handle(Server.java:369)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.AbstractHttpConnection.handleRequest(AbstractHttpConnection.java:486)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.AbstractHttpConnection.headerComplete(AbstractHttpConnection.java:933)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.AbstractHttpConnection$RequestHandler.headerComplete(AbstractHttpConnection.java:995)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.http.HttpParser.parseNext(HttpParser.java:644)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.http.HttpParser.parseAvailable(HttpParser.java:235)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.server.AsyncHttpConnection.handle(AsyncHttpConnection.java:82)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.io.nio.SelectChannelEndPoint.handle(SelectChannelEndPoint.java:668)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.io.nio.SelectChannelEndPoint$1.run(SelectChannelEndPoint.java:52)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:608)<br/>
+        at org.apache.storm.shade.org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:543)</span></span></span>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;">        at java.lang.Thread.run(Thread.java:745)</span></span></span></div>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><br/></span></span></span></div>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="color: rgb(51, 51, 51);"><span style="font-size: 13px;"><span style="font-family: Menlo;">storm的supervisor的节点 supervisor.log显示如下错误：</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">java.lang.RuntimeException: org.apache.storm.thrift.transport.TTransportException: java.net.ConnectException: Connection refused</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.TBackoffConnect.retryNext(TBackoffConnect.java:64)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.TBackoffConnect.doConnectWithRetry(TBackoffConnect.java:56)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.ThriftClient.reconnect(ThriftClient.java:99)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.ThriftClient.&lt;init&gt;(ThriftClient.java:69)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.utils.NimbusClient.&lt;init&gt;(NimbusClient.java:106)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.utils.NimbusClient.getConfiguredClientAs(NimbusClient.java:66)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.utils.NimbusClient.getConfiguredClient(NimbusClient.java:41)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.blobstore.NimbusBlobStore.prepare(NimbusBlobStore.java:268)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.utils.Utils.getClientBlobStoreForSupervisor(Utils.java:462)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.daemon.supervisor$fn__9590.invoke(supervisor.clj:942)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at clojure.lang.MultiFn.invoke(MultiFn.java:243)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.daemon.supervisor$mk_synchronize_supervisor$this__9351$fn__9369.invoke(supervisor.clj:582)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.daemon.supervisor$mk_synchronize_supervisor$this__9351.invoke(supervisor.clj:581)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.event$event_manager$fn__8903.invoke(event.clj:40)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at clojure.lang.AFn.run(AFn.java:22)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.lang.Thread.run(Thread.java:745)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">Caused by: org.apache.storm.thrift.transport.TTransportException: java.net.ConnectException: Connection refused</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.thrift.transport.TSocket.open(TSocket.java:226)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.thrift.transport.TFramedTransport.open(TFramedTransport.java:81)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.SimpleTransportPlugin.connect(SimpleTransportPlugin.java:103)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.security.auth.TBackoffConnect.doConnectWithRetry(TBackoffConnect.java:53)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    ... 14 more</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">Caused by: java.net.ConnectException: Connection refused</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.PlainSocketImpl.socketConnect(Native Method)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at java.net.Socket.connect(Socket.java:589)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    at org.apache.storm.thrift.transport.TSocket.open(TSocket.java:221)</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    ... 17 more</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br/></span></span></span></div>
+<div>当出现此问题时说明Storm的Nimbus挂掉</div>
+<div>一般情况只要重启Storm的主机Nimbus即可，对于Storm1.0.0版本，发现当nimbus挂掉，storm集群就不工作了，但是当重启storm的nimbus </div>
+<div><br/></div>
+<div>在storm主机执行</div>
+<div>＃storm nimbus &amp;</div>
+<div>后，storm集群恢复</div>
+<div><br/></div>
+<div>如果遇到重启storm nimbus仍无法恢复，建议直接查找 nimbus节点的日志文件</div>
+<div>nimbus.log近一步查看是什么问题（比如由于zk异常或者出现网络问题导致nimbus重启失败）</div>
+<div><br/></div>
+<div><br/></div>
+<div><img src="app/bigdata/imagep02/48F6306C-24E1-4DF1-A69E-AAC1C8E916A6.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div><br/></div>
+<div>storm0.10.0以前，nimbus只有一台节点，1.0.0版本以上（含1.0.0版本）调整为可以拥有多台nimbus，这样使的storm健壮性更好，避免特殊情况下的单点故障。</div>
+</div>
+</div>
+</body></html>

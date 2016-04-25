@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="altitude" content="40.76941680908203"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-16 15:05:04 +0000"/>
+    <meta name="latitude" content="40.14324544252101"/>
+    <meta name="longitude" content="116.2897694810124"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-16 16:12:17 +0000"/>
+    <title>大数据(与我距离有多远)－P01 Linux网络&amp;静态IP</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head><body>
+<div><br/></div>
+<div>#cd /etc/sysconfig/network-scripts
+<div>#vi ifcfg-eno*</div>
+<div><br/></div>
+<div>DEVICE=eno16777736</div>
+<div>TYPE=Ethernet</div>
+</div>
+<div>BOOTPROTO=static</div>
+<div>HWADDR=08:00:27:B7:24:88</div>
+<div>IPADDR=192.168.1.103</div>
+<div>
+<div>NETMASK=255.255.255.0</div>
+</div>
+<div>NETWORK=192.168..1.1</div>
+<div>BROADCAST=192.168.1.1</div>
+<div>
+<div>ONBOOT=yes</div>
+<div><br/></div>
+</div>
+<div>#service network restart</div>
+<div><br/></div>
+<div>静态IP不可用的时候，重新设置网卡的配置，然后清除掉/etc/sysconfig/network-scripts下面有关ifcfg-*的配置文件</div>
+<div>重启会自动识别网络</div>
+<div><br/></div>
+<div>有些童鞋的Linux可能需要连接外网，这时候在虚拟机需要配置成桥接网络模式</div>
+<div><img src="app/bigdata/imagep01/0D9A389A-A1AD-43DD-919B-50FE9F7B1396.png" height="952" width="1366"/></div>
+</body></html>
