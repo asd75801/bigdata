@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.6 (453323)"/>
+    <meta name="author" content="zhaozx19881105@163.com"/>
+    <meta name="created" content="2016-04-18 01:55:15 +0000"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-04-25 04:17:09 +0000"/>
+    <title>大数据(与我距离有多远)－04</title>
+    <style type="text/css">
+        img{
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div>今天在Mac下搭建java开发环境，并实现zookeeper+storm的wordcount程序</div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1:Java安装和配置</span></b></div>
+<div>下载参考第2章的java下载</div>
+<div>jdk-8u74-macosx-x64.dmg</div>
+<div><br/></div>
+<div>双击dmg</div>
+<div><img src="app/bigdata/image04/09AAE88D-5659-4574-96B8-E53704F15109.png" height="580" width="940"/></div>
+<div><img src="app/bigdata/image04/EF9CD7B9-0965-4934-9B2E-FE0C88BF8967.png" height="876" width="1240"/></div>
+<div>一直默认即可</div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/2C9401DC-047D-4803-8FF6-3797FB8B6C75.png" height="732" width="1170"/></div>
+<div>安装好后的java位置在 /Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home</div>
+<div>避免权限问题，我们把jdk1.8.0_74.jdk/Contents/下的文件拷贝到用户目录的Program下</div>
+<div><br/></div>
+<div>通过cp -r 命令操作即可,Mac的OS X与Linux都基于Unix，有不懂的童鞋可以自己查询cp 命令的用法</div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/A07F7E6D-22B0-48DD-AECA-5B1D084A6138.png" height="732" width="1170"/></div>
+<div>接下来配置环境变量 ，使用root用户更改/etc/profile文件,这点和Linux相似</div>
+<div>下图是已经配置好的环境变量了，而且还配置了maven的环境变量（关于maven的配置下文会详细介绍）</div>
+<div><img src="app/bigdata/image04/587D07D1-FDD8-4A3A-9A6F-4DEA37E4B381.png" height="732" width="1170"/></div>
+<div><br/></div>
+<div>配置好后，通过</div>
+<div>＃source /etc/profile</div>
+<div>重新加载配置文件</div>
+<div>通过javac,java等命令测试一下java的配置是否成功</div>
+<div><img src="app/bigdata/image04/1CFF4A73-4063-4D8E-BE60-858C3CD2DC9C.png" height="732" width="1170"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2:Maven的下载和安装</span></b></div>
+<div>官网：<a href="http://maven.apache.org">http://maven.apache.org</a></div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/3E9C5B94-B48D-4403-AE9F-86983DF06B35.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div>maven最新版本目前已经到3.3.9了</div>
+<div><a href="http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/"/><a href="http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/">http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/</a></div>
+<div>zip是windows资源，mac和linux下载tar.gz</div>
+<div><a href="http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"/><a href="http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"/><a href="http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz">http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz</a></div>
+<div><br/></div>
+<div>下载后解压/Users/jacob/Program/maven/apache-maven-3.3.9</div>
+<div>如图：</div>
+<div><img src="app/bigdata/image04/3D81CD4F-8DCE-4985-9F34-A05414C0F7B8.png" height="732" width="1170"/></div>
+<div><img src="app/bigdata/image04/CE3A817A-AE29-4495-BF5A-6D96090D95CD.png" height="872" width="1540"/></div>
+<div>环境变量同java类似，可参考java环境变量</div>
+<div><img src="app/bigdata/image04/289B9F08-C0BE-44BC-8518-CEE50ECFE051.png" height="732" width="1170"/></div>
+<div>在终端可通过mvn -v查看maven的版本，maven是依赖java的，所以需要优先配置java环境：）</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3:IDEA的下载和安装</span></b></div>
+<div><br/></div>
+<div>无论什么环境下开发Java程序，最好有一个自己顺手的IDE工具，这里笔者推荐IDEA</div>
+<div>有兴趣的童鞋可以用其他IDE工具或者高手直接用记事本也可：）</div>
+<div><br/></div>
+<div><a href="http://www.jetbrains.com/idea/">http://www.jetbrains.com/idea/</a></div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/411A41CE-0C42-440B-9C7B-B27949E7D576.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div>笔者的版本是IDEA 15，下载后的ideaIU-15.0.4-custom-jdk-bundled.dmg打开后直接拖拽即可安装，非常方便！</div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/9818FBD1-7899-4AD0-8130-B4E0596DAA66.png" height="636" width="910"/></div>
+<div><br/></div>
+<div>IDEA的界面</div>
+<div><img src="app/bigdata/image04/3CD09722-DE73-4694-8FE9-8462CF78E27D.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div>IDEA界面比Eclipse更合理，对maven整合更好一些；总的来说，IDEA只是工具，萝卜白菜各有所爱，每个童鞋自己根据习惯来，这点最重要！</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">4:wordcount项目创建</span></b></div>
+<div>接下来我们创建一个wordcount的maven项目</div>
+<div>在/Users/jacob下创建了Workspace作为工作空间</div>
+<div><br/></div>
+<div>通过</div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/33ECC1BC-3285-446F-A33B-75F437847930.png" height="732" width="1170"/></div>
+<div>联网模式会列出上千个maven项目模版，我们采用maven默认给出的</div>
+<div><br/></div>
+<div><span style="font: 11.0px Menlo; font-variant-ligatures: no-common-ligatures">org.apache.maven.archetypes:maven-archetype-quickstart (An archetype which contains a sample Maven project.)</span></div>
+<div><br/></div>
+<div>由于笔者网络不好，maven使用本地模版，是第7项（第一次创建项目必须联网，maven仓库有模版后，可在本地根据模版创建项目）</div>
+<div><br/></div>
+<div>用户联网时列出上千个模版中，默认提示的比如时779，那么直接输入779即可</div>
+<div>然后设定项目信息</div>
+<div>groupId:    org.sauceggplant   一般为公司域名倒叙</div>
+<div>artifactId:    wordcount  一般为项目名称</div>
+<div>version:    1.0-SNAPSHOT 项目版本（默认1.0-SNAPSHOT）</div>
+<div>package:    可不填写 项目默认java包名</div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/7C93259C-DB92-4968-B7B5-72887C98393B.png" height="1124" width="1170"/></div>
+<div><br/></div>
+<div>默认的maven模版会创建一个pom.xml（maven项目配置文件）</div>
+<div>和一个src（用与存放源代码的路径）以及里面的类</div>
+<div><img src="app/bigdata/image04/2B9DE791-0AA0-4DC2-A062-F761A1F3C4B4.png" height="226" width="1170"/></div>
+<div><br/></div>
+<div><br/></div>
+<div>我们设计一个最简单的流程：</div>
+<div>Topology：Storm的任务，可以假想成传统的我们开个线程执行一个任务</div>
+<div>Spout：Storm的数据源，我们把数据想象成一个流动的，实时的水龙头</div>
+<div><img src="app/bigdata/image04/1F8E39E6-9BC2-483F-A5B1-5D0B3E8521A8.png" height="260" width="1826"/></div>
+<div>对于文中涉及到的代码：已提交到github</div>
+<div><img src="app/bigdata/image04/5B3F2164-7CA1-43BE-B015-7629F8252BD2.png" height="1600" width="2560"/></div>
+<div><a href="https://github.com/zhaozixing/wordcount.git">https://github.com/zhaozixing/wordcount.git</a></div>
+<div>感兴趣的童鞋可以手动下载</div>
+<div><br/></div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/3EBD76BC-C4E8-4456-92F7-BDA003DD53A9.png" height="946" width="646"/></div>
+<div><br/></div>
+<div>下面是源代码：</div>
+<div><br/></div>
+<div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.topology<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.Config<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.StormSubmitter<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.TopologyBuilder<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.LogBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.WordCollectBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.WordCountBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.spout.WordSpout<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.Logger<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.LoggerFactory<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>WordCountTopology {<br/>
+<br/>
+    <span style="color:#cc7832;">private static </span>Logger <span style="color:#9876aa;font-style:italic;">logger </span>= LoggerFactory.<span style="font-style:italic;">getLogger</span>(WordCountTopology.<span style="color:#cc7832;">class</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public static void </span><span style="color:#ffc66d;">main</span>(String args[]) {<br/>
+        <span style="color:#cc7832;">try</span>{<br/>
+            TopologyBuilder topologyBuilder = <span style="color:#cc7832;">new </span>TopologyBuilder()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setSpout(<span style="color:#6a8759;">"WordSpout"</span><span style="color:#cc7832;">,new </span>WordSpout()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"WordCollectBolt"</span><span style="color:#cc7832;">,new </span>WordCollectBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordSpout"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"WordCountBolt"</span><span style="color:#cc7832;">,new </span>WordCountBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">2</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordCollectBolt"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"LogBolt"</span><span style="color:#cc7832;">,new </span>LogBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordCountBolt"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">           </span> Config config = <span style="color:#cc7832;">new </span>Config()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> config.setDebug(<span style="color:#cc7832;">true</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> config.setNumWorkers(<span style="color:#6897bb;">2</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> StormSubmitter.<span style="font-style:italic;">submitTopology</span>(<span style="color:#6a8759;">"WordCountTopology"</span><span style="color:#cc7832;">,<br/></span><span style="color:#cc7832;">                   </span> config<span style="color:#cc7832;">,<br/></span><span style="color:#cc7832;">                   </span> topologyBuilder.createTopology())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+        <span style="color:#cc7832;">catch </span>(Exception e){<br/>
+            e.printStackTrace()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> <span style="color:#9876aa;font-style:italic;">logger</span>.error(e.getMessage())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+    }<br/>
+}<br/>
+<br/></div>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.spout<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.spout.SpoutOutputCollector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.TopologyContext<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.IRichSpout<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.OutputFieldsDeclarer<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Fields<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Values<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>java.util.Map<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>java.util.Random<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> *<br/></span><span style="color:#629755;font-style:italic;"> * names as datasource,each 200ms create a new name,emit by nextTuple method.<br/></span><span style="color:#629755;font-style:italic;"> *<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>WordSpout <span style="color:#cc7832;">implements </span>IRichSpout {<br/>
+<br/>
+    <span style="color:#cc7832;">private </span>SpoutOutputCollector <span style="color:#9876aa;">collector</span><span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    private </span>Random <span style="color:#9876aa;">random </span>= <span style="color:#cc7832;">new </span>Random()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    private static </span>String[] <span style="color:#9876aa;font-style:italic;">names</span>={<span style="color:#6a8759;">"zhangsan"</span><span style="color:#cc7832;">,</span><span style="color:#6a8759;">"lisi"</span><span style="color:#cc7832;">,</span><span style="color:#6a8759;">"wangwu"</span><span style="color:#cc7832;">,</span><span style="color:#6a8759;">"maliu"</span><span style="color:#cc7832;">,</span><span style="color:#6a8759;">"sunqi"</span>}<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public void </span><span style="color:#ffc66d;">declareOutputFields</span>(OutputFieldsDeclarer declarer) {<br/>
+        declarer.declare(<span style="color:#cc7832;">new </span>Fields(<span style="color:#6a8759;">"name"</span>))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public </span>Map&lt;String<span style="color:#cc7832;">, </span>Object&gt; <span style="color:#ffc66d;">getComponentConfiguration</span>() {<br/>
+        <span style="color:#cc7832;">return null;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">open</span>(Map conf<span style="color:#cc7832;">, </span>TopologyContext context<span style="color:#cc7832;">, </span>SpoutOutputCollector collector) {<br/>
+        <span style="color:#cc7832;">this</span>.<span style="color:#9876aa;">collector </span>= collector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">close</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">activate</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">deactivate</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">nextTuple</span>() {<br/>
+        <span style="color:#cc7832;">try </span>{<br/>
+            <span style="color:#9876aa;">collector</span>.emit(<span style="color:#cc7832;">new </span>Values(<span style="color:#9876aa;font-style:italic;">names</span>[<span style="color:#9876aa;">random</span>.nextInt(<span style="color:#9876aa;font-style:italic;">names</span>.<span style="color:#9876aa;">length</span>)]))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> Thread.<span style="font-style:italic;">sleep</span>(<span style="color:#6897bb;">200</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> } <span style="color:#cc7832;">catch </span>(InterruptedException e) {<br/>
+            e.printStackTrace()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">ack</span>(Object msgId) {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">fail</span>(Object msgId) {<br/>
+<br/>
+    }<br/>
+}</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.bolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.OutputCollector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.TopologyContext<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.IRichBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.OutputFieldsDeclarer<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Fields<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Tuple<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Values<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>java.util.HashMap<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>java.util.Map<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> * tuple filed:name will be collected.each name and current system time build a map.<br/></span><span style="color:#629755;font-style:italic;"> * emit map to next tuple.<br/></span><span style="color:#629755;font-style:italic;"> *<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>WordCollectBolt <span style="color:#cc7832;">implements </span>IRichBolt {<br/>
+<br/>
+    <span style="color:#cc7832;">private </span>OutputCollector <span style="color:#9876aa;">collector</span><span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public void </span><span style="color:#ffc66d;">prepare</span>(Map stormConf<span style="color:#cc7832;">, </span>TopologyContext context<span style="color:#cc7832;">, </span>OutputCollector collector) {<br/>
+        <span style="color:#cc7832;">this</span>.<span style="color:#9876aa;">collector </span>= collector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">execute</span>(Tuple input) {<br/>
+        String name = String.<span style="font-style:italic;">valueOf</span>(input.getValueByField(<span style="color:#6a8759;">"name"</span>))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> Map map = <span style="color:#cc7832;">new </span>HashMap()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> map.put(name<span style="color:#cc7832;">,</span>System.<span style="font-style:italic;">currentTimeMillis</span>())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">        if</span>(name!=<span style="color:#cc7832;">null</span>){<br/>
+            <span style="color:#9876aa;">collector</span>.emit(<span style="color:#cc7832;">new </span>Values(map))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">cleanup</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">declareOutputFields</span>(OutputFieldsDeclarer declarer) {<br/>
+        declarer.declare(<span style="color:#cc7832;">new </span>Fields(<span style="color:#6a8759;">"name-map"</span>))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public </span>Map&lt;String<span style="color:#cc7832;">, </span>Object&gt; <span style="color:#ffc66d;">getComponentConfiguration</span>() {<br/>
+        <span style="color:#cc7832;">return null;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+}</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.bolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.OutputCollector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.TopologyContext<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.IRichBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.OutputFieldsDeclarer<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Fields<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Tuple<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Values<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>java.util.*<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>WordCountBolt <span style="color:#cc7832;">implements </span>IRichBolt {<br/>
+<br/>
+    <span style="color:#cc7832;">private </span>OutputCollector <span style="color:#9876aa;">collector</span><span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    private static </span>Map&lt;String<span style="color:#cc7832;">, </span>ArrayList&lt;String&gt;&gt; <span style="color:#9876aa;font-style:italic;">wordCountMap </span>= <span style="color:#cc7832;">new </span>HashMap&lt;String<span style="color:#cc7832;">, </span>ArrayList&lt;String&gt;&gt;()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public void </span><span style="color:#ffc66d;">prepare</span>(Map stormConf<span style="color:#cc7832;">, </span>TopologyContext context<span style="color:#cc7832;">, </span>OutputCollector collector) {<br/>
+        <span style="color:#cc7832;">this</span>.<span style="color:#9876aa;">collector </span>= collector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">execute</span>(Tuple input) {<br/>
+        Map map = (Map) input.getValueByField(<span style="color:#6a8759;">"name-map"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> addMap2WordCountMap(map)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> <span style="color:#9876aa;">collector</span>.emit(<span style="color:#cc7832;">new </span>Values(<span style="color:#9876aa;font-style:italic;">wordCountMap</span>))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">cleanup</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">declareOutputFields</span>(OutputFieldsDeclarer declarer) {<br/>
+        declarer.declare(<span style="color:#cc7832;">new </span>Fields(<span style="color:#6a8759;">"wordCountMap"</span>))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public </span>Map&lt;String<span style="color:#cc7832;">, </span>Object&gt; <span style="color:#ffc66d;">getComponentConfiguration</span>() {<br/>
+        <span style="color:#cc7832;">return null;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">private void </span><span style="color:#ffc66d;">addMap2WordCountMap</span>(Map map) {<br/>
+        String name = <span style="color:#cc7832;">null;<br/></span><span style="color:#cc7832;">        boolean </span>isExist = <span style="color:#cc7832;">false;<br/></span><span style="color:#cc7832;">        if </span>(map.keySet().iterator().hasNext()) {<br/>
+            name = String.<span style="font-style:italic;">valueOf</span>(map.keySet().iterator().next())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">            synchronized </span>(<span style="color:#9876aa;font-style:italic;">wordCountMap</span>) {<br/>
+                Iterator iterator = <span style="color:#9876aa;font-style:italic;">wordCountMap</span>.keySet().iterator()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">                while </span>(iterator.hasNext()) {<br/>
+                    <span style="color:#cc7832;">if </span>(String.<span style="font-style:italic;">valueOf</span>(iterator.next()).equals(name)) {<br/>
+                        <span style="color:#9876aa;font-style:italic;">wordCountMap</span>.get(name).add(String.<span style="font-style:italic;">valueOf</span>(map.get(name)))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">                       </span> isExist=<span style="color:#cc7832;">true;<br/></span><span style="color:#cc7832;">                   </span> }<br/>
+                }<br/>
+                <span style="color:#cc7832;">if</span>(!isExist){<br/>
+                    ArrayList&lt;String&gt; list = <span style="color:#cc7832;">new </span>ArrayList&lt;String&gt;()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">                   </span> list.add(String.<span style="font-style:italic;">valueOf</span>(map.get(name)))<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">                   </span> <span style="color:#9876aa;font-style:italic;">wordCountMap</span>.put(name<span style="color:#cc7832;">,</span>list)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">               </span> }<br/>
+            }<br/>
+        }<br/>
+    }<br/>
+}</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.bolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.OutputCollector<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.task.TopologyContext<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.IRichBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.OutputFieldsDeclarer<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.tuple.Tuple<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.Logger<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.LoggerFactory<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>java.util.ArrayList<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>java.util.Iterator<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>java.util.Map<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>LogBolt <span style="color:#cc7832;">implements </span>IRichBolt {<br/>
+<br/>
+    <span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;">     * logger<br/></span><span style="color:#629755;font-style:italic;">     * */<br/></span><span style="color:#629755;font-style:italic;">   </span> <span style="color:#cc7832;">private static </span>Logger <span style="color:#9876aa;font-style:italic;">logger </span>= LoggerFactory.<span style="font-style:italic;">getLogger</span>(LogBolt.<span style="color:#cc7832;">class</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public void </span><span style="color:#ffc66d;">prepare</span>(Map stormConf<span style="color:#cc7832;">, </span>TopologyContext context<span style="color:#cc7832;">, </span>OutputCollector collector) {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">execute</span>(Tuple input) {<br/>
+        Map map = (Map)input.getValueByField(<span style="color:#6a8759;">"wordCountMap"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> Iterator iterator = map.keySet().iterator()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> <span style="color:#9876aa;font-style:italic;">logger</span>.info(<span style="color:#6a8759;">"*****begin*****"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">        while</span>(iterator.hasNext()){<br/>
+            String name = String.<span style="font-style:italic;">valueOf</span>(iterator.next())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> <span style="color:#9876aa;font-style:italic;">logger</span>.info(name+<span style="color:#6a8759;">"</span><span style="color:#cc7832;">\t</span><span style="color:#6a8759;">"</span>+((ArrayList&lt;String&gt;)map.get(name)).size()) <span style="color:#cc7832;">;<br/></span><span style="color:#808080;">//            for(String time : (ArrayList&lt;String&gt;)map.get(name)){<br/></span><span style="color:#808080;">//                logger.info(name+"\t"+time);<br/></span><span style="color:#808080;">//            }<br/></span><span style="color:#808080;">//            logger.info("**********");<br/></span><span style="color:#808080;">       </span> }<br/>
+        <span style="color:#9876aa;font-style:italic;">logger</span>.info(<span style="color:#6a8759;">"*****end*****"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">cleanup</span>() {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public void </span><span style="color:#ffc66d;">declareOutputFields</span>(OutputFieldsDeclarer declarer) {<br/>
+<br/>
+    }<br/>
+<br/>
+    <span style="color:#cc7832;">public </span>Map&lt;String<span style="color:#cc7832;">, </span>Object&gt; <span style="color:#ffc66d;">getComponentConfiguration</span>() {<br/>
+        <span style="color:#cc7832;">return null;<br/></span><span style="color:#cc7832;">   </span> }<br/>
+}</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#e8bf6a;">&lt;?</span><span style="color:#bababa;">xml version</span><span style="color:#6a8759;">="1.0" </span><span style="color:#bababa;">encoding</span><span style="color:#6a8759;">="UTF-8" </span><span style="color:#e8bf6a;">?&gt;<br/></span><span style="color:#e8bf6a;">&lt;configuration </span><span style="color:#bababa;">scan</span><span style="color:#6a8759;">="true" </span><span style="color:#bababa;">scanPeriod</span><span style="color:#6a8759;">="30 seconds" </span><span style="color:#bababa;">debug</span><span style="color:#6a8759;">="false"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">    &lt;property </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="PATH" </span><span style="color:#bababa;">value</span><span style="color:#6a8759;">="logs/"</span><span style="color:#e8bf6a;">&gt;&lt;/property&gt;<br/></span><span style="color:#e8bf6a;">    &lt;property </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="PREFIX" </span><span style="color:#bababa;">value</span><span style="color:#6a8759;">="jar-archetype-"</span><span style="color:#e8bf6a;">&gt;&lt;/property&gt;<br/></span><span style="color:#e8bf6a;">    &lt;timestamp </span><span style="color:#bababa;">key</span><span style="color:#6a8759;">="DAY" </span><span style="color:#bababa;">datePattern</span><span style="color:#6a8759;">="yyyyMMdd"</span><span style="color:#e8bf6a;">&gt;&lt;/timestamp&gt;<br/></span><span style="color:#e8bf6a;">    &lt;appender </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="CONSOLE" </span><span style="color:#bababa;">class</span><span style="color:#6a8759;">="ch.qos.logback.core.ConsoleAppender"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">        &lt;encoder&gt;<br/></span><span style="color:#e8bf6a;">            &lt;pattern&gt;</span>%d-%relative-%thread-%-5level %logger %m%n<span style="color:#e8bf6a;">&lt;/pattern&gt;<br/></span><span style="color:#e8bf6a;">        &lt;/encoder&gt;<br/></span><span style="color:#e8bf6a;">    &lt;/appender&gt;<br/></span><span style="color:#e8bf6a;">    &lt;appender </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="FILE" </span><span style="color:#bababa;">class</span><span style="color:#6a8759;">="ch.qos.logback.core.rolling.RollingFileAppender"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">        &lt;encoder&gt;<br/></span><span style="color:#e8bf6a;">            &lt;pattern&gt;</span>%d-%relative-%thread-%-5level %logger %m%n<span style="color:#e8bf6a;">&lt;/pattern&gt;<br/></span><span style="color:#e8bf6a;">        &lt;/encoder&gt;<br/></span><span style="color:#e8bf6a;">        &lt;file&gt;</span>${PATH}${PREFIX}log-${DAY}.log<span style="color:#e8bf6a;">&lt;/file&gt;<br/></span><span style="color:#e8bf6a;">        &lt;rollingPolicy </span><span style="color:#bababa;">class</span><span style="color:#6a8759;">="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">            &lt;fileNamePattern&gt;</span>${PATH}${PREFIX}log-${DAY}.%i.log.zip<span style="color:#e8bf6a;">&lt;/fileNamePattern&gt;<br/></span><span style="color:#e8bf6a;">            &lt;minIndex&gt;</span>1<span style="color:#e8bf6a;">&lt;/minIndex&gt;<br/></span><span style="color:#e8bf6a;">            &lt;maxIndex&gt;</span>20<span style="color:#e8bf6a;">&lt;/maxIndex&gt;<br/></span><span style="color:#e8bf6a;">        &lt;/rollingPolicy&gt;<br/></span><span style="color:#e8bf6a;">        &lt;triggeringPolicy </span><span style="color:#bababa;">class</span><span style="color:#6a8759;">="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">            &lt;maxFileSize&gt;</span>5MB<span style="color:#e8bf6a;">&lt;/maxFileSize&gt;<br/></span><span style="color:#e8bf6a;">        &lt;/triggeringPolicy&gt;<br/></span><span style="color:#e8bf6a;">    &lt;/appender&gt;<br/></span><span style="color:#e8bf6a;">    &lt;logger </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="org.sauceggplant" </span><span style="color:#bababa;">level</span><span style="color:#6a8759;">="TRACE"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">        &lt;appender-ref </span><span style="color:#bababa;">ref</span><span style="color:#6a8759;">="CONSOLE"</span><span style="color:#e8bf6a;">&gt;&lt;/appender-ref&gt;<br/></span><span style="color:#e8bf6a;">    &lt;/logger&gt;<br/></span><span style="color:#e8bf6a;">    &lt;logger </span><span style="color:#bababa;">name</span><span style="color:#6a8759;">="org.sauceggplant" </span><span style="color:#bababa;">level</span><span style="color:#6a8759;">="DEBUG"</span><span style="color:#e8bf6a;">&gt;<br/></span><span style="color:#e8bf6a;">        &lt;appender-ref </span><span style="color:#bababa;">ref</span><span style="color:#6a8759;">="FILE"</span><span style="color:#e8bf6a;">&gt;&lt;/appender-ref&gt;<br/></span><span style="color:#e8bf6a;">    &lt;/logger&gt;<br/></span><span style="color:#e8bf6a;">&lt;/configuration&gt;</span><br/></div>
+</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;">package </span>org.sauceggplant.topology<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">import </span>org.apache.storm.Config<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.LocalCluster<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.apache.storm.topology.TopologyBuilder<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.LogBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.WordCollectBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.bolt.WordCountBolt<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.sauceggplant.spout.WordSpout<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.Logger<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">import </span>org.slf4j.LoggerFactory<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@author </span><span style="color:#629755;font-style:italic;">jacob<br/></span><span style="color:#629755;font-style:italic;"> * </span><span style="color:#629755;font-weight:bold;font-style:italic;">@version </span><span style="color:#629755;font-style:italic;">0.0.1.0<br/></span><span style="color:#629755;font-style:italic;"> */<br/></span><span style="color:#cc7832;">public class </span>WordCountTopologyTest {<br/>
+<br/>
+    <span style="color:#629755;font-style:italic;">/**<br/></span><span style="color:#629755;font-style:italic;">     * logger<br/></span><span style="color:#629755;font-style:italic;">     * */<br/></span><span style="color:#629755;font-style:italic;">   </span> <span style="color:#cc7832;">private static </span>Logger <span style="color:#9876aa;font-style:italic;">logger </span>= LoggerFactory.<span style="font-style:italic;">getLogger</span>(WordCountTopology.<span style="color:#cc7832;">class</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">    public static void </span><span style="color:#ffc66d;">main</span>(String args[]) {<br/>
+        <span style="color:#cc7832;">try</span>{<br/>
+            TopologyBuilder topologyBuilder = <span style="color:#cc7832;">new </span>TopologyBuilder()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setSpout(<span style="color:#6a8759;">"WordSpout"</span><span style="color:#cc7832;">,new </span>WordSpout()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"WordCollectBolt"</span><span style="color:#cc7832;">,new </span>WordCollectBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordSpout"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"WordCountBolt"</span><span style="color:#cc7832;">,new </span>WordCountBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">2</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordCollectBolt"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> topologyBuilder.setBolt(<span style="color:#6a8759;">"LogBolt"</span><span style="color:#cc7832;">,new </span>LogBolt()<span style="color:#cc7832;">,</span><span style="color:#6897bb;">1</span>)<br/>
+                    .setNumTasks(<span style="color:#6897bb;">1</span>)<br/>
+                    .shuffleGrouping(<span style="color:#6a8759;">"WordCountBolt"</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;"><br/></span><span style="color:#cc7832;">           </span> Config config = <span style="color:#cc7832;">new </span>Config()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> config.setDebug(<span style="color:#cc7832;">true</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> config.setMaxTaskParallelism(<span style="color:#6897bb;">1</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> LocalCluster cluster = <span style="color:#cc7832;">new </span>LocalCluster()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> cluster.submitTopology(<span style="color:#6a8759;">"WordCountTopology"</span><span style="color:#cc7832;">,<br/></span><span style="color:#cc7832;">                   </span> config<span style="color:#cc7832;">,<br/></span><span style="color:#cc7832;">                   </span> topologyBuilder.createTopology())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> Thread.<span style="font-style:italic;">sleep</span>(<span style="color:#6897bb;">60000</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> System.<span style="font-style:italic;">exit</span>(<span style="color:#6897bb;">0</span>)<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+        <span style="color:#cc7832;">catch </span>(Exception e){<br/>
+            e.printStackTrace()<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">           </span> <span style="color:#9876aa;font-style:italic;">logger</span>.error(e.getMessage())<span style="color:#cc7832;">;<br/></span><span style="color:#cc7832;">       </span> }<br/>
+    }<br/>
+}<br/>
+<br/></div>
+</div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 12px;">本地调试：</span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><img src="app/bigdata/image04/899D261A-9E37-4254-82D8-05DA97D868FB.png" height="1182" width="2472"/></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 12px;">本地模式运行可直接通过，每2次间隔都可打印出的结果中的某一个名字的数量增加1，说明符合预期。</span></div>
+<div><span style="font-size: 12px;"><br/></span></div>
+<div><span style="font-size: 12px;">然后将项目打包，放置于storm集群上</span></div>
+<div><span style="font-size: 12px;"><br/></span></div>
+<div>笔者发现storm已经更新版本，0.10.0更新至1.0.0正式版了，而且更新的东西非常多</div>
+<div>上面的代码部分也是基于storm1.0.0的，这里强调storm1.0.0的配置,总体和0.10.0无差别</div>
+<div>storm.yaml(zookeeper  192.168.56.101,192.168.56.102,192.168.56.103)</div>
+<div><img src="app/bigdata/image04/F8347C80-F765-4B84-AAA4-1E563C63A4E1.png" height="886" width="1332"/></div>
+<div><br/></div>
+<div>其他配置保持storm默认</div>
+<div><span style="font-size: 12px;"><br/></span></div>
+<div><span style="font-size: 12px;">#storm -jar wordcount.jar org.sauceggplant.topology.WordCountTopology</span></div>
+<div><span style="font-size: 12px;"><br/></span></div>
+<div><img src="app/bigdata/image04/B28F6CF8-7B65-4B17-8317-B344BD05DA3D.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/C737C165-3A7F-4FC8-BF4C-883F5BC18DE9.png" height="1600" width="2560"/></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><img src="app/bigdata/image04/D741F14B-46FC-4DD7-A5E2-A1CE50CEC5CE.png" height="1600" width="2560"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><img src="app/bigdata/image04/5B2380C6-DDEE-4A4E-B926-AEF09D3D91B1.png" height="1600" width="2560"/></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 12px;">到这里就可以看到可视化的整个流程，清晰的看到数据流向，与最初画的图一致，说明storm执行成功。</span></div>
+<div><span style="font-size: 12px;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+<div><span style="font-size: 9pt;"><br/></span></div>
+</body></html>
