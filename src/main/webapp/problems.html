@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="problemsApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大数据(与我距离有多远)-问题整理</title>
+
+
+    <script type="text/javascript" language="JavaScript" src="/jquery/jquery.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/bootstrap/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/bootstrap.min.css"/>
+
+    <script type="text/javascript" language="JavaScript" src="/angularjs/angular.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/app/js/app/problemsApp.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/app/js/controller/problemsCtrl.js"></script>
+
+</head>
+<body ng-controller="problemsCtrl">
+<div>
+    <nav class="navbar bg-faded">
+        <ul class="nav navbar-nav">
+            <li class="nav-item active" ng-click="navChange('0')">
+                <a href="#" class="nav-link">大数据(与我距离有多远)-问题整理
+                    <span class="sr-only"></span>
+                </a>
+            </li>
+            <li class="nav-item" ng-click="navChange('1')">
+                <a href="#" class="nav-link">Linux网络配置</a>
+            </li>
+            <li class="nav-item" ng-click="navChange('2')">
+                <a href="#" class="nav-link">Nimbus挂掉</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<hr/>
+<div class="chapterp chapterp0">
+    <p>
+    <h2>大数据(与我距离有多远)-问题整理</h2></p>
+    <div class="container-fluid" ng-include="'app/bigdata/bigdatap.html'">
+    </div>
+</div>
+
+<div class="chapterp chapterp1">
+    <p>
+    <h2>Linux网络&amp;静态IP</h2></p>
+    <div class="container-fluid" ng-include="'app/bigdata/bigdatap01.html'">
+    </div>
+</div>
+
+<div class="chapterp chapterp2">
+    <p>
+    <h2>Storm Nimbus 挂掉 org.apache.storm.utils.NimbusLeaderNotFoundException java.lang.RuntimeException: org.apache.storm.thrift.transport.TTransportException: java.net.ConnectException: Connection refused</h2></p>
+    <div class="container-fluid" ng-include="'app/bigdata/bigdatap02.html'">
+    </div>
+    <br><br>
+</div>
+
+</body>
+</html>

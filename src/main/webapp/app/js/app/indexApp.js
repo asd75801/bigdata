@@ -1,1 +1,1 @@
-var app = angular.module('bigdata',[]);
+var indexApp = angular.module('indexApp',[]);

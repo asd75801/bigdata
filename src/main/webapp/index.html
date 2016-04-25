@@ -1,43 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="bigdata">
+<html lang="en" ng-app="indexApp">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>大数据(与我距离有多远)</title>
 
 
-    <script type="text/javascript" src="jquery/jquery.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/jquery/jquery.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/bootstrap/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/bootstrap/bootstrap.min.css"/>
 
-    <script type="text/javascript" src="angularjs/angular.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="app/js/app/indexApp.js"></script>
-    <script type="text/javascript" language="JavaScript" src="app/js/controller/indexCtrl.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/angularjs/angular.min.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/app/js/app/indexApp.js"></script>
+    <script type="text/javascript" language="JavaScript" src="/app/js/controller/indexCtrl.js"></script>
 
 </head>
 <body ng-controller="indexCtrl">
 <div>
     <nav class="navbar bg-faded">
         <ul class="nav navbar-nav">
-            <li class="nav-item active" ng-click="navChange('1')">
-                <a href="#" class="nav-link">Chapter 1
+            <li class="nav-item active" ng-click="navChange('0')">
+                <a href="#" class="nav-link">大数据(与我距离有多远)
                     <span class="sr-only"></span>
                 </a>
             </li>
+            <li class="nav-item" ng-click="navChange('1')">
+                <a href="#" class="nav-link">第一章</a>
+            </li>
             <li class="nav-item" ng-click="navChange('2')">
-                <a href="#" class="nav-link">Chapter 2</a>
+                <a href="#" class="nav-link">第二章</a>
             </li>
             <li class="nav-item" ng-click="navChange('3')">
-                <a href="#" class="nav-link">Chapter 3</a>
+                <a href="#" class="nav-link">第三章</a>
             </li>
             <li class="nav-item" ng-click="navChange('4')">
-                <a href="#" class="nav-link">Chapter 4</a>
+                <a href="#" class="nav-link">第四章</a>
             </li>
         </ul>
     </nav>
 </div>
 <hr/>
-<br><br>
+<div class="chapter chapter0">
+    <p>
+    <h2>大数据(与我距离有多远)</h2></p>
+    <div class="container-fluid" ng-include="'app/bigdata/bigdata.html'">
+    </div>
+</div>
 
 <div class="chapter chapter1">
     <p>
@@ -69,8 +77,6 @@
     </div>
     <br><br>
 </div>
-
-
 
 </body>
 </html>
